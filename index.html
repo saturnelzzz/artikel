@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Era di Mana Semua Hal Bisa Dipalsukan — Kecuali Perasaan</title>
+    <style>
+        /* ========================================
+           RESET & BASE STYLES
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            /* Light Mode Colors */
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --accent: #2d3748;
+            --accent-soft: #718096;
+            --border: #e2e8f0;
+            --highlight-bg: #f7fafc;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Colors */
+            --bg-primary: #1a202c;
+            --bg-secondary: #2d3748;
+            --text-primary: #f7fafc;
+            --text-secondary: #cbd5e0;
+            --accent: #e2e8f0;
+            --accent-soft: #a0aec0;
+            --border: #4a5568;
+            --highlight-bg: #2d3748;
+            --shadow: rgba(0, 0, 0, 0.3);
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.8;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* ========================================
+           NAVBAR
+        ======================================== */
+        .navbar {
+            background-color: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            padding: 1.2rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-brand {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .navbar-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .navbar-menu a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .navbar-menu a:hover {
+            color: var(--text-primary);
+        }
+
+        .theme-toggle {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .theme-toggle:hover {
+            background-color: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* ========================================
+           HERO SECTION
+        ======================================== */
+        .hero {
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        .hero-title {
+            font-size: 2.8rem;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -1px;
+        }
+
+        .hero-meta {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ========================================
+           ARTICLE CONTENT
+        ======================================== */
+        .article {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 0 2rem;
+        }
+
+        .article-section {
+            margin-bottom: 3rem;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .article-section.visible {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .article h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .article p {
+            margin-bottom: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .article ul {
+            margin: 1.5rem 0 1.5rem 2rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .article li {
+            margin-bottom: 0.8rem;
+        }
+
+        /* ========================================
+           HIGHLIGHT QUOTE
+        ======================================== */
+        .highlight-quote {
+            background-color: var(--highlight-bg);
+            border-left: 4px solid var(--accent);
+            padding: 2rem 2.5rem;
+            margin: 3rem 0;
+            font-style: italic;
+            font-size: 1.3rem;
+            line-height: 1.7;
+            color: var(--text-primary);
+            box-shadow: 0 4px 6px var(--shadow);
+            border-radius: 0 8px 8px 0;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .highlight-quote.visible {
+            animation: slideInLeft 0.8s ease forwards;
+        }
+
+        .highlight-quote::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -0.5rem;
+            left: 0.8rem;
+            color: var(--accent-soft);
+            opacity: 0.3;
+        }
+
+        /* ========================================
+           BIBLIOGRAPHY
+        ======================================== */
+        .bibliography {
+            background-color: var(--bg-secondary);
+            padding: 3rem 2.5rem;
+            margin-top: 4rem;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .bibliography h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .bibliography-list {
+            list-style: none;
+        }
+
+        .bibliography-list li {
+            margin-bottom: 1rem;
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        .bibliography-list li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent-soft);
+        }
+
+        /* ========================================
+           FOOTER
+        ======================================== */
+        .footer {
+            background-color: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+
+        .footer p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        }
+
+        /* ========================================
+           ANIMATIONS
+        ======================================== */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ========================================
+           RESPONSIVE DESIGN
+        ======================================== */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+
+            .navbar-menu {
+                display: none;
+                /* Hide menu on mobile for cleaner look */
+            }
+
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .article {
+                margin: 2rem auto;
+                padding: 0 1.5rem;
+            }
+
+            .article h2 {
+                font-size: 1.5rem;
+            }
+
+            .article p,
+            .article ul {
+                font-size: 1rem;
+            }
+
+            .highlight-quote {
+                padding: 1.5rem 1.8rem;
+                font-size: 1.1rem;
+                margin: 2rem 0;
+            }
+
+            .bibliography {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+
+            .navbar-brand {
+                font-size: 1rem;
+            }
+
+            .theme-toggle {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">Kelompok 5</div>
+            <ul class="navbar-menu">
+                <li><a href="#beranda">Beranda</a></li>
+                <li><a href="#artikel">Artikel</a></li>
+                <li><a href="#tentang">Tentang</a></li>
+            </ul>
+            <button class="theme-toggle" id="themeToggle">
+                ☀️ Mode Gelap
+            </button>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <h1 class="hero-title">Selamat Datang di Era di Mana Semua Hal Bisa Dipalsukan — Kecuali Perasaan</h1>
+            <div class="hero-meta">
+                Teknologi & Kemanusiaan • Selamat Membaca
+            </div>
+        </div>
+    </section>
+
+    <!-- ARTICLE CONTENT -->
+    <article class="article">
+        <section class="article-section">
+            <p>Perkembangan teknologi modern telah membawa manusia pada era baru yang serba digital. Saat ini, hampir
+                semua hal bisa diciptakan atau dimanipulasi secara digital menggunakan kecerdasan buatan (Artificial
+                Intelligence/AI). Teknologi seperti deepfake dan AI generatif mampu menghasilkan gambar, suara, hingga
+                video yang terlihat sangat nyata tanpa campur tangan manusia secara langsung.</p>
+
+            <p>Fenomena ini menciptakan dilema besar: di satu sisi, teknologi memberikan kemudahan dan kreativitas tanpa
+                batas; namun di sisi lain, ia mengancam keaslian dan kepercayaan sosial. Menurut peneliti media digital
+                Hany Farid dari University of California, "setiap kemajuan dalam AI generatif membawa potensi baru untuk
+                penyalahgunaan dan disinformasi digital" (Farid, 2023).</p>
+
+            <p>Namun di tengah semua hal yang bisa dipalsukan, ada satu hal yang tetap tak bisa ditiru sepenuhnya —
+                perasaan manusia.</p>
+        </section>
+
+        <section class="article-section">
+            <h2>Dunia yang Semakin Mudah Dipalsukan</h2>
+
+            <p>Teknologi AI generatif didasarkan pada model yang disebut Generative Adversarial Networks (GANs), pertama
+                kali diperkenalkan oleh Ian Goodfellow dan timnya pada tahun 2014. Sistem ini bekerja dengan dua
+                jaringan yang saling "bertarung": satu membuat gambar palsu, dan satu lagi berusaha mendeteksinya. Dari
+                proses inilah dihasilkan citra digital yang semakin sulit dibedakan dari aslinya (Goodfellow et al.,
+                2014).</p>
+
+            <p>Kini, wajah selebriti bisa ditempel ke tubuh orang lain melalui deepfake, suara tokoh publik bisa disalin
+                melalui AI voice cloning, dan gambar yang tampak seperti foto nyata bisa dihasilkan hanya dari teks
+                deskripsi.</p>
+
+            <p>Menurut laporan dari IBM Security (2024), peningkatan kualitas deepfake sudah mencapai titik di mana 80%
+                pengguna internet kesulitan membedakan mana konten yang asli dan mana hasil AI. Ini menunjukkan bahwa
+                dunia digital benar-benar telah memasuki fase di mana "realitas bisa dibuat."</p>
+        </section>
+
+        <section class="article-section">
+            <h2>Dampak dan Ancaman Teknologi Palsu</h2>
+
+            <p>Meskipun teknologi AI memiliki manfaat besar, penyalahgunaannya membawa risiko sosial dan etis. Menurut
+                Department of Homeland Security (2024), deepfake telah digunakan dalam berbagai kejahatan siber seperti
+                pemerasan, penyebaran hoaks politik, hingga pencurian identitas digital.</p>
+
+            <p>Salah satu kasus terkenal adalah ketika video palsu seorang tokoh politik beredar di media sosial
+                menjelang pemilu, memicu perdebatan publik sebelum akhirnya terbukti palsu. Hal ini membuktikan bahwa
+                teknologi dapat menjadi senjata disinformasi yang berbahaya.</p>
+
+            <p>Selain itu, dampak lain yang muncul adalah krisis kepercayaan. Saat semua hal bisa dimanipulasi,
+                masyarakat menjadi skeptis terhadap informasi visual yang beredar. Seperti dikatakan oleh ilmuwan
+                komputer Hany Farid (2023), "kita memasuki masa di mana bukti visual tidak lagi bisa dijadikan dasar
+                kebenaran."</p>
+        </section>
+
+        <!-- HIGHLIGHT QUOTE -->
+        <blockquote class="highlight-quote">
+            Kita memasuki masa di mana bukti visual tidak lagi bisa dijadikan dasar kebenaran.
+        </blockquote>
+
+        <section class="article-section">
+            <h2>Mengapa Perasaan Tidak Bisa Dipalsukan</h2>
+
+            <p>Meskipun AI dapat meniru ekspresi wajah dan intonasi suara, perasaan sejati tetap tak bisa direkayasa.
+                Menurut studi dari Harvard Business Review (2023), sistem emotion AI hanya mampu mengenali pola emosi
+                permukaan berdasarkan ekspresi wajah atau nada suara, tetapi gagal memahami konteks sosial dan
+                pengalaman pribadi seseorang.</p>
+
+            <p>AI bisa meniru "senyum", tetapi tidak bisa memahami mengapa seseorang tersenyum — apakah karena bahagia,
+                gugup, atau sedih. Hal ini menunjukkan bahwa teknologi belum mampu menggantikan empati dan kesadaran
+                emosional manusia.</p>
+
+            <p>Dengan kata lain, di balik semua kecanggihan algoritma, masih ada "ruang batin" manusia yang tidak bisa
+                disentuh oleh mesin — yaitu perasaan tulus dan kejujuran emosional.</p>
+        </section>
+
+        <section class="article-section">
+            <h2>Peran Generasi Z di Era Digital</h2>
+
+            <p>Sebagai generasi yang tumbuh di tengah kemajuan teknologi, Gen Z memegang peranan penting dalam menjaga
+                batas antara kenyataan dan kepalsuan digital. Menurut laporan UNESCO (2024), tingkat literasi digital
+                generasi muda masih belum sebanding dengan laju pertumbuhan teknologi AI, sehingga penting untuk
+                menanamkan sikap kritis dan etis dalam penggunaan teknologi.</p>
+
+            <p>Beberapa langkah nyata yang bisa dilakukan Gen Z antara lain:</p>
+
+            <ul>
+                <li>Verifikasi sumber informasi sebelum menyebarkannya</li>
+                <li>Gunakan alat pendeteksi deepfake, seperti Deepware Scanner atau Hive Moderation</li>
+                <li>Bijak membagikan data pribadi agar tidak disalahgunakan untuk pembuatan identitas palsu</li>
+                <li>Tingkatkan empati digital — tetap mengedepankan nilai kemanusiaan saat berinteraksi di dunia maya
+                </li>
+            </ul>
+
+            <p>Seperti dikatakan oleh Profesor Sherry Turkle dari MIT, "teknologi telah menghubungkan kita secara
+                digital, tapi bisa memutuskan kita secara emosional jika tidak digunakan dengan kesadaran" (Turkle,
+                2022).</p>
+        </section>
+
+        <section class="article-section">
+            <h2>Kesimpulan</h2>
+
+            <p>Kita telah memasuki masa ketika hampir semua hal bisa dipalsukan, kecuali perasaan yang tulus. Algoritma
+                dapat meniru rupa dan suara manusia, tetapi tidak dapat menciptakan empati dan cinta yang sejati.</p>
+
+            <p>Tantangan kita bukan melawan teknologi — melainkan menjaga kemanusiaan di tengah dunia buatan.</p>
+
+            <p>Seperti kata Sherry Turkle (2022): <em>"Yang kita butuhkan bukan mesin yang lebih manusiawi, tetapi
+                    manusia yang tetap manusia di tengah mesin."</em></p>
+        </section>
+
+        <!-- BIBLIOGRAPHY -->
+        <div class="bibliography">
+            <h2>Daftar Pustaka</h2>
+            <ul class="bibliography-list">
+                <li>Department of Homeland Security. (2024). <em>Cybersecurity Threats in the Age of Deepfake
+                        Technology</em>. Washington, D.C.: DHS Press.</li>
+                <li>Farid, H. (2023). <em>The Ethics of Digital Manipulation: Deepfakes and Disinformation</em>. Journal
+                    of Media Ethics, 38(2), 112-128.</li>
+                <li>Goodfellow, I., Pouget-Abadie, J., Mirza, M., Xu, B., Warde-Farley, D., Ozair, S., Courville, A., &
+                    Bengio, Y. (2014). Generative Adversarial Networks. <em>Advances in Neural Information Processing
+                        Systems</em>, 27, 2672-2680.</li>
+                <li>Harvard Business Review. (2023). The Limits of Emotion AI: Why Machines Can't Feel. <em>HBR Digital
+                        Articles</em>, April 2023.</li>
+                <li>IBM Security. (2024). <em>The State of Deepfake Detection: 2024 Report</em>. New York: IBM
+                    Corporation.</li>
+                <li>Turkle, S. (2022). <em>The Empathy Diaries: A Memoir</em>. New York: Penguin Press.</li>
+                <li>UNESCO. (2024). <em>Digital Literacy in the Age of AI: Global Youth Survey</em>. Paris: UNESCO
+                    Publishing.</li>
+            </ul>
+        </div>
+    </article>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2025 Kelompok 5. Dibuat dengan penuh perhatian terhadap detail.</p>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // ========================================
+        // DARK MODE TOGGLE
+        // ========================================
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to light mode
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', currentTheme);
+        updateToggleButton(currentTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateToggleButton(newTheme);
+        });
+
+        function updateToggleButton(theme) {
+            if (theme === 'dark') {
+                themeToggle.textContent = '☀️ Mode Terang';
+            } else {
+                themeToggle.textContent = '🌙 Mode Gelap';
+            }
+        }
+
+        // ========================================
+        // SCROLL ANIMATIONS
+        // ========================================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Stop observing after animation
+                }
+            });
+        }, observerOptions);
+
+        // Observe all article sections
+        document.querySelectorAll('.article-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Observe highlight quote
+        const highlightQuote = document.querySelector('.highlight-quote');
+        if (highlightQuote) {
+            observer.observe(highlightQuote);
+        }
+
+        // ========================================
+        // SMOOTH SCROLL FOR NAVIGATION
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ========================================
+        // NAVBAR SHADOW ON SCROLL
+        // ========================================
+        let lastScroll = 0;
+        const navbar = document.querySelector('.navbar');
+
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.pageYOffset;
+
+            if (currentScroll > 50) {
+                navbar.style.boxShadow = '0 2px 10px var(--shadow)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+
+            lastScroll = currentScroll;
+        });
+    </script>
+</body>
+
+</html>
